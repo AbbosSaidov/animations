@@ -6,7 +6,7 @@ class AnimatedLogo extends AnimatedWidget {
 
   // Make the Tweens static because they don't change.
   static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
-  static final _sizeTween = Tween<double>(begin: 0, end: 300);
+  //static final _sizeTween = Tween<double>(begin: 0, end: 300);
 
   @override
   Widget build(BuildContext context) {
@@ -16,8 +16,8 @@ class AnimatedLogo extends AnimatedWidget {
         opacity: _opacityTween.evaluate(animation),
         child: Container(
           margin: const EdgeInsets.symmetric(vertical: 10),
-          height: _sizeTween.evaluate(animation),
-          width: _sizeTween.evaluate(animation),
+          height:200, //_sizeTween.evaluate(animation),
+          width:200, //_sizeTween.evaluate(animation),
           child: const FlutterLogo(),
         ),
       ),
