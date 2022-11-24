@@ -3,24 +3,39 @@ import 'package:flutter/material.dart';
 class AnimatedLogo extends AnimatedWidget {
   const AnimatedLogo({super.key, required Animation<double> animation})
       : super(listenable: animation);
+  static int t=0;
 
   // Make the Tweens static because they don't change.
-  static final _opacityTween = Tween<double>(begin: 0.1, end: 1);
+  static final _opacityTween = Tween<double>(begin: 0.5, end: 1);
   //static final _sizeTween = Tween<double>(begin: 0, end: 300);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
+    t=t+1;
+    print("t=$t");
     final animation = listenable as Animation<double>;
     return Center(
-      child: Opacity(
-        opacity: _opacityTween.evaluate(animation),
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          height:200, //_sizeTween.evaluate(animation),
-          width:200, //_sizeTween.evaluate(animation),
-          child: const FlutterLogo(),
-        ),
-      ),
+      child:Transform.scale(
+        scale: _opacityTween.evaluate(animation),
+        child:  Container(
+              margin: const EdgeInsets.symmetric(vertical: 10),
+              height:200, //_sizeTween.evaluate(animation),
+              width:200, //_sizeTween.evaluate(animation),
+              child: const FlutterLogo(),
+            ),
+      )
+
+
+      ///opacity
+    //  child: Opacity(
+    //    opacity: _opacityTween.evaluate(animation),
+    //    child: Container(
+    //      margin: const EdgeInsets.symmetric(vertical: 10),
+    //      height:200, //_sizeTween.evaluate(animation),
+    //      width:200, //_sizeTween.evaluate(animation),
+    //      child: const FlutterLogo(),
+    //    ),
+    //  ),
     );
   }
 }
@@ -35,7 +50,6 @@ class LogoApp extends StatefulWidget {
 class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController controller;
-
   @override
   void initState() {
     super.initState();
@@ -43,6 +57,7 @@ class _LogoAppState extends State<LogoApp> with SingleTickerProviderStateMixin {
         AnimationController(duration: const Duration(seconds: 2), vsync: this);
     animation = CurvedAnimation(parent: controller, curve: Curves.easeIn)
       ..addStatusListener((status) {
+
         if (status == AnimationStatus.completed) {
           controller.reverse();
         } else if (status == AnimationStatus.dismissed) {
